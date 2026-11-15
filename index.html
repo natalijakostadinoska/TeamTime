@@ -1,0 +1,83 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>TeamTime</title><meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{document.documentElement.dataset.theme=localStorage.t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}catch{}</script>
+<style>
+:root{--bg:#f3f4fb;--card:#ffffffd9;--line:#dfe2f1;--tx:#1b1e2e;--mut:#6b7089;--a:#6c5ce7;--b:#00b894;--r:#e84a5f;--y:#f5a623}
+[data-theme=dark]{--bg:#0d0f17;--card:#181b25d9;--line:#2a2e3f;--tx:#e8eaf2;--mut:#8b90a5;--a:#7c6cff;--b:#35d0ba;--r:#ff6b81}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px system-ui,sans-serif;padding:28px;min-height:100vh;transition:background .4s,color .4s}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background-image:radial-gradient(var(--line) 1px,transparent 1px);background-size:26px 26px;opacity:.7}
+.blob{position:fixed;z-index:-1;border-radius:50%;filter:blur(90px);opacity:.4;animation:float 20s ease-in-out infinite;translate:calc(var(--mx,0)*var(--k)*1px) calc(var(--my,0)*var(--k)*1px);transition:translate .5s}
+.b1{width:480px;height:480px;background:var(--a);top:-120px;left:-100px;--k:40}.b2{width:420px;height:420px;background:var(--b);bottom:-120px;right:-60px;--k:-60;animation-delay:-7s}
+.b3{width:300px;height:300px;background:#ff9ff3;top:40%;left:55%;--k:80;animation-delay:-13s;opacity:.25}
+@keyframes float{50%{transform:translate(60px,-50px) scale(1.15)}}@keyframes in{from{opacity:0;transform:translateY(14px)}}@keyframes pulse{50%{box-shadow:0 0 0 6px transparent}}
+header{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:22px}.hi{flex:1;min-width:240px}.hi h1{margin:0;font-size:28px}
+.hi h1 span{background:linear-gradient(90deg,var(--a),var(--b));-webkit-background-clip:text;color:transparent}.hi p{margin:4px 0 0;color:var(--mut)}
+input,button{background:var(--card);border:1px solid var(--line);color:var(--tx);padding:10px 14px;border-radius:12px;font:inherit;backdrop-filter:blur(8px)}
+button{cursor:pointer;transition:.2s}button:hover{border-color:var(--a);transform:translateY(-2px)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:18px}
+.tile,.card{background:var(--card);border:1px solid var(--line);border-radius:18px;backdrop-filter:blur(12px)}.tile{padding:14px 16px}.tile b{font-size:26px;display:block}
+.sub,.stats span{color:var(--mut);font-size:12px}.chips{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}.chips button.on{background:var(--a);color:#fff;border-color:var(--a)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px}.card{padding:20px;transition:.25s}.card.in{animation:in .5s backwards}
+.card:hover{transform:translateY(-4px);border-color:var(--a);box-shadow:0 14px 34px #0003}
+.top{display:flex;align-items:center;gap:12px}.name{font-weight:600;font-size:17px}.av{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;display:grid;place-items:center;font-weight:700;font-size:18px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 10px;border-radius:99px;background:var(--line);margin-top:3px}.pill i{width:8px;height:8px;border-radius:50%;background:var(--mut)}
+.pill.working i{background:var(--b);box-shadow:0 0 0 0 var(--b);animation:pulse 1.6s infinite}.pill.break i{background:var(--y)}
+.ring{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;margin-left:auto}.ring i{width:48px;height:48px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font-style:normal;font-size:13px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}.stats div{background:var(--line);border-radius:12px;padding:8px 10px}.stats b{display:block;font-size:15px}
+.app{margin:9px 0}.app div:first-child{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}.bar{height:7px;background:var(--line);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b));border-radius:9px;transition:width .6s}.bar i.bu{background:var(--r)}.bar i.bn{background:#888}
+.chip{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;cursor:pointer;background:#888;vertical-align:-1px}.cp{background:var(--b)}.cu{background:var(--r)}
+.tok{font:11px monospace;color:var(--mut);word-break:break-all;margin-top:12px}.del{color:var(--r);float:right;padding:2px 8px;font-size:12px}.hint{color:var(--mut);font-size:13px;margin:0 0 16px}
+.av{background-size:cover;background-position:center;cursor:pointer}.teamrow{display:flex;align-items:center;gap:12px;margin-bottom:8px}.tp{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,var(--a),var(--b)) center/cover;cursor:pointer;display:grid;place-items:center;font-size:24px;transition:.2s}.tp:hover{transform:scale(1.08) rotate(-3deg)}.tn{font-size:20px;font-weight:700;background:transparent;border:1px dashed transparent;width:260px;padding:4px 8px}.tn:hover,.tn:focus{border-color:var(--line)}select{background:var(--card);border:1px solid var(--line);color:var(--tx);padding:10px;border-radius:12px;font:inherit}
+.del+.del{margin-right:6px}
+</style></head><body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<header><div class="hi"><div class="teamrow"><div class="tp" id="tp" data-team="1"></div><input class="tn" id="tn"></div><div id="hi"></div></div>
+<select id="lg"><option value="en">English</option><option value="mk">Македонски</option></select><button id="th" title="Dark / light">🌓</button><input type="date" id="date"><input id="nm"><button id="ad" onclick="add()"></button><button id="ex"></button><button id="lo" onclick="logout()"></button></header>
+<input type="file" id="file" accept="image/*" hidden>
+<div class="tiles" id="tiles"></div>
+<div class="chips" id="chips"></div>
+<p class="hint" id="hint"></p>
+<div class="grid" id="g"></div>
+<script>
+let key=window.ADMIN_KEY||sessionStorage.k||prompt('Admin key')||'';sessionStorage.k=key;
+const $=id=>document.getElementById(id);$('date').value=new Date().toLocaleDateString('sv-SE');
+const api=(p,o={})=>fetch(p,{...o,headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'}}).then(r=>{if(r.status==401){sessionStorage.k='';alert('Wrong admin key');location.reload()}return r.json()});
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=s=>{s=Math.round(s);return s>=3600?(s/3600|0)+'h '+((s%3600)/60|0)+'m':(s/60|0)+'m'};
+const L={en:{gm:'Good morning',ga:'Good afternoon',ge:'Good evening',gn:'Good night',admin:'Admin',working:'Working',break:'On break',out:'Clocked out',tWork:'Working now',tBreak:'On break',tOut:'Clocked out',tProd:'Team productivity',all:'All',worked:'Worked',brk:'Break',active:'Active',prod:'Productive',unprod:'Unproductive',idle:'Idle',none:'No activity yet',noUsers:'No teammates here yet.',newName:'New teammate name',add:'+ Add',logout:'Log out',remove:'Remove',token:'Token',confirmDel:'Remove this teammate?',hint:'Click the dot next to an app to label it: green = productive, red = unproductive, grey = neutral. Click an avatar to change a picture.',teamPh:'Team name',picTip:'Click to change picture',exp:'Export CSV (7 days)',regen:'New token',regenQ:'Generate a new token? The old one stops working.',loc:'en-US'},
+mk:{gm:'Добро утро',ga:'Добар ден',ge:'Добра вечер',gn:'Добра ноќ',admin:'Админ',working:'Работи',break:'На пауза',out:'Одјавен',tWork:'Работат сега',tBreak:'На пауза',tOut:'Одјавени',tProd:'Продуктивност на тимот',all:'Сите',worked:'Работено',brk:'Пауза',active:'Активно',prod:'Продуктивно',unprod:'Непродуктивно',idle:'Неактивно',none:'Сè уште нема активност',noUsers:'Сè уште нема членови.',newName:'Име на нов член',add:'+ Додај',logout:'Одјава',remove:'Отстрани',token:'Токен',confirmDel:'Да се отстрани овој член?',hint:'Кликни на точката до апликацијата: зелено = продуктивно, црвено = непродуктивно, сиво = неутрално. Кликни на аватар за промена на слика.',teamPh:'Име на тимот',picTip:'Кликни за промена на слика',exp:'Експортирај CSV (7 дена)',regen:'Нов токен',regenQ:'Да се генерира нов токен? Стариот ќе престане да работи.',loc:'mk-MK'}};
+let lang=(()=>{try{return localStorage.l}catch{}})()||(navigator.language.startsWith('mk')?'mk':'en');const t=k=>L[lang][k]||k;
+let cats={},users=[],filter='all',first=true;
+function applyLang(){document.documentElement.lang=lang;$('lg').value=lang;$('nm').placeholder=t('newName');$('ad').textContent=t('add');$('lo').textContent=t('logout');$('ex').textContent=t('exp');$('hint').textContent=t('hint');$('tn').placeholder=t('teamPh');$('tp').title=t('picTip');head();draw()}
+function head(){const d=new Date(),h=d.getHours(),g=h<5?['gn','🌙']:h<12?['gm','☀️']:h<18?['ga','🌤️']:h<22?['ge','🌆']:['gn','🌙'];
+ $('hi').innerHTML=`<h1>${g[1]} ${t(g[0])}, <span>${t('admin')}</span></h1><p>${d.toLocaleDateString(t('loc'),{weekday:'long',month:'long',day:'numeric'})} · ${d.toLocaleTimeString(t('loc'))}</p>`}
+function score(u){let P=0;for(const[a,v]of Object.entries(u.apps))if(cats[a]=='p')P+=v;return P}
+function pick(cb){const f=$('file');f.onchange=()=>{const file=f.files[0];f.value='';if(!file)return;const img=new Image();img.onload=()=>{const c=document.createElement('canvas'),s=Math.min(img.width,img.height);c.width=c.height=96;c.getContext('2d').drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,96,96);cb(c.toDataURL('image/png'))};img.src=URL.createObjectURL(file)};f.click()}
+function draw(){const c=k=>users.filter(u=>(u.status||'out')==k).length,tt=users.filter(u=>u.active+u.idle>0),avg=tt.length?Math.round(tt.reduce((s,u)=>s+score(u)/(u.active+u.idle),0)/tt.length*100):0;
+ $('tiles').innerHTML=[['tWork',c('working'),'🟢'],['tBreak',c('break'),'☕'],['tOut',c('out'),'🌙'],['tProd',avg+'%','⚡']].map(([l,v,e])=>`<div class="tile"><span class="sub">${e} ${t(l)}</span><b>${v}</b></div>`).join('');
+ $('chips').innerHTML=[['all','all'],['working','working'],['break','break'],['out','out']].map(([k,l])=>`<button data-f="${k}" class="${filter==k?'on':''}">${t(l)}</button>`).join('');
+ $('g').innerHTML=users.filter(u=>filter=='all'||(u.status||'out')==filter).map(card).join('')||`<p class="sub">${t('noUsers')}</p>`;first=false}
+function card(u){const tt=u.active+u.idle,s=u.status||'out',P=score(u);let U=0;for(const[a,v]of Object.entries(u.apps))if(cats[a]=='u')U+=v;
+ const pct=tt?Math.round(P/tt*100):0,apps=Object.entries(u.apps).sort((a,b)=>b[1]-a[1]).slice(0,6),mx=apps[0]?apps[0][1]:1;
+ return `<div class="card ${first?'in':''}"><div class="top"><div class="av" data-p="${u.id}" title="${t('picTip')}" style="${u.pic?`background-image:url(${u.pic})`:''}">${u.pic?'':esc(u.name[0]||'?').toUpperCase()}</div><div><div class="name">${esc(u.name)}</div><span class="pill ${s}"><i></i>${t(s)}</span></div>
+ <div class="ring" style="background:conic-gradient(var(--b) ${pct*3.6}deg,var(--line) 0)"><i>${pct}%</i></div></div>
+ <div class="stats">${[['worked',u.worked],['brk',u.brk],['active',u.active],['prod',P],['unprod',U],['idle',u.idle]].map(([l,v])=>`<div><b>${fmt(v||0)}</b><span>${t(l)}</span></div>`).join('')}</div>
+ ${apps.map(([a,v])=>`<div class="app"><div><span><b class="chip c${cats[a]||'n'}" data-a="${esc(a)}"></b>${esc(a)}</span><span>${fmt(v)}</span></div><div class="bar"><i class="b${cats[a]||'n'}" style="width:${v/mx*100}%"></i></div></div>`).join('')||`<div class="sub">${t('none')}</div>`}
+ <div class="tok">${t('token')}: ${u.token}<button class="del" data-rg="${u.id}">${t('regen')}</button><button class="del" onclick="del('${u.id}')">${t('remove')}</button></div></div>`}
+async function load(){const r=await api('/api/stats?date='+$('date').value);if(!r.users)return;cats=r.cats;users=r.users;const tm=r.team||{};if(document.activeElement!==$('tn'))$('tn').value=tm.name||'';$('tp').style.backgroundImage=tm.pic?`url(${tm.pic})`:'';$('tp').textContent=tm.pic?'':'👥';draw()}
+async function add(){if(!$('nm').value)return;await api('/api/users',{method:'POST',body:JSON.stringify({name:$('nm').value})});$('nm').value='';load()}
+async function del(id){if(confirm(t('confirmDel'))){await api('/api/users/'+id,{method:'DELETE'});load()}}
+function logout(){sessionStorage.k='';location.reload()}
+document.addEventListener('click',async e=>{const d=e.target.dataset||{};
+ if(d.f){filter=d.f;return draw()}
+ if(d.rg){if(confirm(t('regenQ')))await api('/api/users/'+d.rg,{method:'POST',body:JSON.stringify({regen:1})});return load()}
+ if(d.p)return pick(async pic=>{await api('/api/users/'+d.p,{method:'POST',body:JSON.stringify({pic})});load()});
+ if(d.team)return pick(async pic=>{await api('/api/team',{method:'POST',body:JSON.stringify({pic})});load()});
+ if(d.a){await api('/api/cats',{method:'POST',body:JSON.stringify({app:d.a,cat:{n:'p',p:'u',u:'n'}[cats[d.a]||'n']})});load()}});
+$('ex').onclick=async()=>{const rows=await api('/api/report?days=7&to='+$('date').value),m=v=>Math.round(v/60);
+ const csv='\ufeff'+['date,name,worked_min,break_min,active_min,idle_min,productive_min,unproductive_min'].concat(rows.map(r=>[r.date,'"'+r.name.replace(/"/g,'""')+'"',m(r.worked),m(r.brk),m(r.active),m(r.idle),m(r.productive),m(r.unproductive)].join(','))).join('\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='teamtime-'+$('date').value+'.csv';a.click()};
+$('th').onclick=()=>{const t=document.documentElement.dataset.theme=='dark'?'light':'dark';document.documentElement.dataset.theme=t;try{localStorage.t=t}catch{}};
+addEventListener('mousemove',e=>{document.body.style.setProperty('--mx',e.clientX/innerWidth-.5);document.body.style.setProperty('--my',e.clientY/innerHeight-.5)});
+$('date').onchange=load;$('lg').onchange=()=>{lang=$('lg').value;try{localStorage.l=lang}catch{}applyLang()};$('tn').onchange=()=>api('/api/team',{method:'POST',body:JSON.stringify({name:$('tn').value})});applyLang();setInterval(head,1000);load();setInterval(load,5000);
+</script></body></html>

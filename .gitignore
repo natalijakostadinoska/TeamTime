@@ -1,0 +1,19 @@
+# secrets and runtime data (never commit these)
+data.json
+admin.json
+config.json
+.env
+
+# build output and dependencies
+node_modules/
+dist/
+build/
+*.spec
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
