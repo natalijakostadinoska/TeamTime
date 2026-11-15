@@ -95,4 +95,4 @@ HTTPS/VPS guide · tray icon and auto-start for the admin app · charts and time
 
 ## License
 
-MIT, see [LICENSE](LICENSE.md).
+MIT, see [LICENSE](LICENSE).
