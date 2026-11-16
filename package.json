@@ -1,6 +1,1 @@
-{"name":"teamtime-admin","version":"1.0.0","main":"main.js",
-"scripts":{"start":"electron .","dist":"electron-builder --win portable"},
-"devDependencies":{"electron":"^31.0.0","electron-builder":"^24.13.3"},
-"build":{"appId":"com.teamtime.admin","productName":"TeamTime Admin",
-"files":["main.js","preload.js","server.js","index.html"],
-"directories":{"output":"dist"},"win":{"target":"portable","signAndEditExecutable":false}}}
+{"name":"teamtime-admin","version":"1.0.0","main":"main.js","scripts":{"start":"electron .","dist":"electron-builder --win portable"},"devDependencies":{"electron":"^41.7.1","electron-builder":"^24.13.3"},"build":{"appId":"com.teamtime.admin","productName":"TeamTime Admin","files":["main.js","preload.js","server.js","index.html"],"directories":{"output":"dist"},"win":{"target":"portable","signAndEditExecutable":false}}}
